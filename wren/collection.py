@@ -15,7 +15,7 @@ class Collection(object):
         logger.error(response.text)
         response.raise_for_status()
 
-    def decode(self, raw, many=False):
+    def decode(self, data, many=False):
         if many:
             result = []
             for d in data:
