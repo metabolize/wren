@@ -15,19 +15,16 @@ class Collection(object):
         logger.error(response.text)
         response.raise_for_status()
 
-    def deserialize(self, response, data, many=False):
+    def decode(self, raw, many=False):
         if many:
             result = []
             for d in data:
-                obj = self.model(**self.model.deserialize(d))
+                obj = self.model(**self.model.decode(d))
                 obj._persisted = True
                 result.append(obj)
             return result
         else:
-            return self.model(**self.model.deserialize(data))
-
-    def serialize(self, obj):
-        return obj.serialize()
+            return self.model(**self.model.decode(data))
 
     def all(self):
         response = self.client.fetch(self.url)
@@ -37,7 +34,7 @@ class Collection(object):
 
         data = response.json()
 
-        return self.deserialize(response, data=data, many=True)
+        return self.decode(response, data=data, many=True)
 
     def query(self, **kwargs):
         request = requests.Request('GET', self.url,
@@ -51,7 +48,7 @@ class Collection(object):
 
         data = response.json()
 
-        return self.deserialize(response, data=data, many=True)
+        return self.decode(response, data=data, many=True)
 
     def get(self, id_):
         response = self.client.fetch(self._url(id_))
@@ -61,7 +58,7 @@ class Collection(object):
 
         data = response.json()
 
-        return self.deserialize(response, data=data)
+        return self.decode(response, data=data)
 
     def _url(self, id_):
         url = self.url
@@ -100,7 +97,7 @@ class Collection(object):
                 url = url()
             method = 'POST'
 
-        data = self.serialize(obj)
+        data = obj.encode()
 
         request = requests.Request(method, url,
             data=json.dumps(data),
@@ -116,7 +113,7 @@ class Collection(object):
             data = response.json()
 
             try:
-                obj.deserialize(data)
+                obj.decode(data)
                 obj._persisted = True
             except Exception as error:
                 raise
