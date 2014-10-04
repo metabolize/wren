@@ -37,7 +37,7 @@ class Collection(object):
 
         data = response.json()
 
-        return self.decode(response, data=data, many=True)
+        return self.decode(data, many=True)
 
     def query(self, **kwargs):
         request = requests.Request('GET', self.url,
@@ -51,7 +51,7 @@ class Collection(object):
 
         data = response.json()
 
-        return self.decode(response, data=data, many=True)
+        return self.decode(data, many=True)
 
     def get(self, id_):
         response = self.client.fetch(self._url(id_))
@@ -61,7 +61,7 @@ class Collection(object):
 
         data = response.json()
 
-        return self.decode(response, data=data)
+        return self.decode(data)
 
     def _url(self, id_):
         url = self.url
