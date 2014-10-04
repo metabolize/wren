@@ -26,6 +26,9 @@ class Collection(object):
         else:
             return self.model(**self.model.decode(data))
 
+    def encode(self, obj):
+        return obj.encode()
+
     def all(self):
         response = self.client.fetch(self.url)
 
@@ -97,7 +100,7 @@ class Collection(object):
                 url = url()
             method = 'POST'
 
-        data = obj.encode()
+        data = self.encode(obj)
 
         request = requests.Request(method, url,
             data=json.dumps(data),
