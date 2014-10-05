@@ -1,4 +1,4 @@
-version = '0.3.3'
+version = '0.3.4'
 
 # https://coderwall.com/p/qawuyq
 # Thanks James.
@@ -9,7 +9,10 @@ try:
 except (IOError, ImportError, RuntimeError):
    long_description = ''
 
-with open('requirements.txt', 'r') as f:
+import os
+requirements_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'requirements.txt')
+
+with open(requirements_file, 'r') as f:
     install_requires = [x.strip() for x in f.readlines()]
 
 from setuptools import setup
