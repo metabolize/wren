@@ -1,4 +1,4 @@
-version = '0.3.4'
+version = '0.3.5'
 
 # https://coderwall.com/p/qawuyq
 # Thanks James.
